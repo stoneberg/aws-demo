@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: local #default profile
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    mode: HTML5
+    cache: false
+
+#LOCAL Profiles
+server:
+  port: 8080
+
+logging:
+  config: classpath:logback-spring.xml
+#    level:
+#      org.hibernate.SQL: debug
+#      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
