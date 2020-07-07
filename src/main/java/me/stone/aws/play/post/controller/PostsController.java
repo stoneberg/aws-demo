@@ -1,11 +1,6 @@
 package me.stone.aws.play.post.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import me.stone.aws.play.post.payload.PostReq.SavePostDto;
@@ -32,6 +27,12 @@ public class PostsController {
 	@GetMapping("/api/v1/posts/{id}")
 	public FindPostDto findById(@PathVariable Long id) {
 		return postService.findById(id);
+	}
+
+	@DeleteMapping("/api/v1/posts/{id}")
+	public Long delete(@PathVariable Long id) {
+		postService.delete(id);
+		return id;
 	}
 
 }

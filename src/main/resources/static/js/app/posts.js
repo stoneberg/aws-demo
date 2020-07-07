@@ -1,15 +1,21 @@
 const main = (function($) {
 
     const init = function() {
+        // 등록
         $('#btn-save').on('click', function(e) {
-            save();
+            savePost();
         });
+        // 수정
         $('#btn-update').on('click', function(e) {
-            update();
+            updatePost();
+        });
+        // 삭제
+        $('#btn-delete').on('click', function(e) {
+            deletePost();
         });
     }
 
-    const save = function() {
+    const savePost = function() {
         const data = {
             title: $('#title').val(),
             author: $('#author').val(),
@@ -30,14 +36,13 @@ const main = (function($) {
         });
     }
 
-    const update = function() {
+    const updatePost = function() {
         const data = {
             title: $('#title').val().trim(),
             content: $('#content').val().trim()
         }
 
         const id = $('#id').val();
-        console.log("saving data=================>", id, data);
 
         $.ajax({
             type: 'PUT',
@@ -53,12 +58,28 @@ const main = (function($) {
         });
     }
 
+    const deletePost = function() {
+        const id = $('#id').val();
+
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/v1/posts/${id}`,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        }).done(function() {
+            window.alert('글이 삭제되었습니다.');
+            window.location.href="/";
+        }).fail(function(error) {
+            window.alert(JSON.stringify(error));
+        });
+    };
+
     $(function() {
        init();
     });
 
     return {
-        save: save
+
     }
 
 })(jQuery);
