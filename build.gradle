@@ -25,7 +25,7 @@ dependencies {
     //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     //implementation 'org.springframework.session:spring-session-core'
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    compile("org.springframework.boot:spring-boot-devtools")
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'

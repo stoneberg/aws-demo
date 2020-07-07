@@ -1,5 +1,8 @@
 spring:
   profiles: local
+  devtools:
+    livereload:
+      enabled: true
 
   datasource:
     ### local-b2b(P6SpyDriver)
