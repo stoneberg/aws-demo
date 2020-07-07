@@ -25,9 +25,9 @@ public class PostReq {
 
 		public Posts toEntity() {
 			return Posts.builder()
-					.title(title)
-					.content(content)
-					.author(author)
+					.title(this.title)
+					.content(this.content)
+					.author(this.author)
 					.build();
 		}
 
@@ -49,8 +49,8 @@ public class PostReq {
 
 		public Posts toEntity() {
 			return Posts.builder()
-					.title(title)
-					.content(content)
+					.title(this.title)
+					.content(this.content)
 					.build();
 		}
 
