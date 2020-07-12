@@ -2,8 +2,8 @@ package me.stone.aws.play.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.stone.aws.play.common.annotations.LoginUser;
 import me.stone.aws.play.config.auth.dto.SessionUser;
-import me.stone.aws.play.post.payload.PostRes;
 import me.stone.aws.play.post.payload.PostRes.FindDto;
 import me.stone.aws.play.post.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -22,28 +22,25 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
-        log.info("@index========================>");
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        log.info("@index.user========================>{}", user);
-        if(user != null){
-            model.addAttribute("username", user.getName());
+        if (user != null) {
+            model.addAttribute("user_name", user.getName());
         }
         return "index";
     }
 
-    @GetMapping("/posts/save")
-    public String postsSave() {
-        return "posts-save";
+    @GetMapping("/post/create")
+    public String postSave() {
+        return "post-create";
     }
 
     // just test
-    @GetMapping("/posts/update/{id}")
-    public String postsUpdate(@PathVariable Long id, Model model) {
+    @GetMapping("/post/detail/{id}")
+    public String postDetail(@PathVariable Long id, Model model) {
         FindDto findDto = postService.findById(id);
         model.addAttribute("post", findDto);
-        return "posts-update";
+        return "post-update";
     }
 
 }

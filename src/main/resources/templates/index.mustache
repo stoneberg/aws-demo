@@ -1,17 +1,17 @@
 {{>layout/header}}
-    <h1>스프링부트로 시작하는 웹서비스 Ver.2</h1>
+    <h1>SpringBoot Web Services Demo</h1>
     <div class="col-md-12">
         <!--로그인 기능 영역-->
         <div class="row">
             <div class="col-md-6">
-                <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-                {{#username}}
-                    Logged in as : <span id="user">{{username}}</span>
+                <a href="/post/create" role="button" class="btn btn-primary">글 등록</a>
+                {{#user_name}}
+                    Logged in as : <span id="user">{{user_name}}</span>
                     <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-                {{/username}}
-                {{^username}}
+                {{/user_name}}
+                {{^user_name}}
                     <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-                {{/username}}
+                {{/user_name}}
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         {{#posts}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/posts/update/{{id}}">{{title}}</a></td>
+                <td><a href="/post/detail/{{id}}">{{title}}</a></td>
                 <td>{{author}}</td>
                 <td>{{modifiedAt}}</td>
             </tr>
