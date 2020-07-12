@@ -1,9 +1,9 @@
 package me.stone.aws.play.post.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
+import me.stone.aws.play.post.domain.Post;
+import me.stone.aws.play.post.payload.PostReq.CreateDto;
+import me.stone.aws.play.post.payload.PostReq.UpdateDto;
+import me.stone.aws.play.post.repository.PostRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,14 +16,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import me.stone.aws.play.post.domain.Posts;
-import me.stone.aws.play.post.payload.PostReq;
-import me.stone.aws.play.post.payload.PostReq.SavePostDto;
-import me.stone.aws.play.post.payload.PostReq.UpdatePostDto;
-import me.stone.aws.play.post.repository.PostsRepository;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostsControllerTest {
+public class PostControllerTest {
 
 	@LocalServerPort
 	private int port;
@@ -32,11 +30,11 @@ public class PostsControllerTest {
 	private TestRestTemplate restTemplate;
 	
 	@Autowired
-	private PostsRepository postsRepository;
+	private PostRepository postRepository;
 	
 	@AfterEach
 	void tearDown() throws Exception {
-		postsRepository.deleteAll();
+		postRepository.deleteAll();
 	}
 	
 	@Test
@@ -45,7 +43,7 @@ public class PostsControllerTest {
 		// given
 		String title = "title";
 		String content = "content";
-		SavePostDto saveDto = SavePostDto.builder()
+		CreateDto createDto = CreateDto.builder()
 				.title(title)
 				.content(content)
 				.author("author")
@@ -54,7 +52,7 @@ public class PostsControllerTest {
 		String url ="http://localhost:" + port + "/api/v1/posts";
 		
 		// when
-		ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, saveDto, Long.class);
+		ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, createDto, Long.class);
 		
 		// then
 		
@@ -63,7 +61,7 @@ public class PostsControllerTest {
 		assertThat(responseEntity.getBody()).isGreaterThan(0L);
 		
 		// jpa
-		List<Posts> all = postsRepository.findAll();
+		List<Post> all = postRepository.findAll();
 		assertThat(all.get(0).getTitle()).isEqualTo(title);
 		assertThat(all.get(0).getContent()).isEqualTo(content);
 		
@@ -74,33 +72,33 @@ public class PostsControllerTest {
 	@DisplayName("게시글 수정")
 	void updatePostTest() {
 		// given
-		Posts saveEntity = Posts.builder()
+		Post saveEntity = Post.builder()
 				.title("title")
 				.content("content")
 				.author("author")
 				.build();
-		Posts savedPosts = postsRepository.save(saveEntity);
-		
-		Posts saveEntity2 = Posts.builder()
+		Post savedPosts = postRepository.save(saveEntity);
+
+		Post saveEntity2 = Post.builder()
 				.title("title")
 				.content("content")
 				.author("author")
 				.build();
-		Posts savedPosts2 = postsRepository.save(saveEntity2);
+		Post savedPosts2 = postRepository.save(saveEntity2);
 		
 		Long updateId = savedPosts2.getId();
 		
 		String expectedTitle = "title2";
 		String expectedContent = "content2";
 		
-		UpdatePostDto requestDto = UpdatePostDto.builder()
+		UpdateDto updateDto = UpdateDto.builder()
 				.title(expectedTitle)
 				.content(expectedContent)
 				.build();
 		
 		String url ="http://localhost:" + port + "/api/v1/posts/" + updateId;
 		
-		HttpEntity<UpdatePostDto> requestEntity = new HttpEntity<>(requestDto);
+		HttpEntity<UpdateDto> requestEntity = new HttpEntity<>(updateDto);
 		
 		// when
 		ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
@@ -110,7 +108,7 @@ public class PostsControllerTest {
 		System.out.println("========>"  + responseEntity.getBody());
 		assertThat(responseEntity.getBody()).isGreaterThan(0L); // seq 1부터 증가하므로 저장 성공 시 0이 될수 없음
 		
-		List<Posts> all = postsRepository.findAll();
+		List<Post> all = postRepository.findAll();
 		assertThat(all.get(1).getTitle()).isEqualTo(expectedTitle);
 		assertThat(all.get(1).getContent()).isEqualTo(expectedContent);
 		

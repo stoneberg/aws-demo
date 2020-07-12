@@ -3,28 +3,28 @@ package me.stone.aws.play.post.payload;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.stone.aws.play.post.domain.Posts;
+import me.stone.aws.play.post.domain.Post;
 
 public class PostReq {
 
 	@Getter
 	@NoArgsConstructor
-	public static class SavePostDto {
+	public static class CreateDto {
 
 		private String title;
 		private String content;
 		private String author;
 
 		@Builder
-		public SavePostDto(String title, String content, String author) {
+		public CreateDto(String title, String content, String author) {
 			super();
 			this.title = title;
 			this.content = content;
 			this.author = author;
 		}
 
-		public Posts toEntity() {
-			return Posts.builder()
+		public Post toEntity() {
+			return Post.builder()
 					.title(this.title)
 					.content(this.content)
 					.author(this.author)
@@ -35,20 +35,20 @@ public class PostReq {
 	
 	@Getter
 	@NoArgsConstructor
-	public static class UpdatePostDto {
+	public static class UpdateDto {
 
 		private String title;
 		private String content;
 
 		@Builder
-		public UpdatePostDto(String title, String content, String author) {
+		public UpdateDto(String title, String content, String author) {
 			super();
 			this.title = title;
 			this.content = content;
 		}
 
-		public Posts toEntity() {
-			return Posts.builder()
+		public Post toEntity() {
+			return Post.builder()
 					.title(this.title)
 					.content(this.content)
 					.build();

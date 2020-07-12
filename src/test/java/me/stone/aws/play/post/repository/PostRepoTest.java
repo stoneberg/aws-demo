@@ -1,27 +1,26 @@
 package me.stone.aws.play.post.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
+import me.stone.aws.play.post.domain.Post;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import me.stone.aws.play.post.domain.Posts;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class PostRepoTest {
 	
 	@Autowired
-	private PostsRepository postsRepository;
+	private PostRepository postRepository;
 	
 	@BeforeEach
 	void init() {
-		postsRepository.deleteAll();
+		postRepository.deleteAll();
 	}
 	
 	@Test
@@ -31,19 +30,19 @@ class PostRepoTest {
 		String title = "테스트 글쓰기";
 		String content = "테스트본문";
 		
-		postsRepository.save(Posts.builder()
+		postRepository.save(Post.builder()
 				.title(title)
 				.content(content)
 				.author("stoneberg@gmail.com")
 				.build());
 		
 		// when
-		List<Posts>	postsList = postsRepository.findAll();
+		List<Post>	postsList = postRepository.findAll();
 		
 		// then
-		Posts posts = postsList.get(0);
-		assertThat(posts.getTitle()).isEqualTo(title);
-		assertThat(posts.getContent()).isEqualTo(content);
+		Post post = postsList.get(0);
+		assertThat(post.getTitle()).isEqualTo(title);
+		assertThat(post.getContent()).isEqualTo(content);
 		
 	}
 	
@@ -52,16 +51,16 @@ class PostRepoTest {
 	void baseTimeEntityTest() {
 		// given
 		LocalDateTime now = LocalDateTime.now();
-		postsRepository.save(Posts.builder()
+		postRepository.save(Post.builder()
 				.title("title")
 				.content("content")
 				.author("author")
 				.build());
 		// when
-		List<Posts> posts = postsRepository.findAll();
+		List<Post> posts = postRepository.findAll();
 		
 		// then
-		Posts post = posts.get(0);
+		Post post = posts.get(0);
 		System.out.println("========> createdAt=" + post.getCreatedAt() + ", modifiedAt=" + post.getModifiedAt());
 		assertThat(post.getCreatedAt()).isAfter(now);
 		assertThat(post.getModifiedAt()).isAfter(now);

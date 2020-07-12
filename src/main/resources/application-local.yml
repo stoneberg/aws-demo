@@ -1,6 +1,6 @@
 spring:
-  profiles: local
-    include: oauth
+  profiles:
+    include: local, oauth
   devtools:
     livereload:
       enabled: true

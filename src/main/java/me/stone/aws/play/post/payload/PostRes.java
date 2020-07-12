@@ -1,14 +1,14 @@
 package me.stone.aws.play.post.payload;
 
 import lombok.Getter;
-import me.stone.aws.play.post.domain.Posts;
+import me.stone.aws.play.post.domain.Post;
 
 import java.time.LocalDateTime;
 
 public class PostRes {
 
 	@Getter
-	public static class FindPostDto {
+	public static class FindDto {
 
 		private Long id;
 		private String title;
@@ -16,7 +16,7 @@ public class PostRes {
 		private String author;
 		private LocalDateTime modifiedAt;
 
-		public FindPostDto(Posts entity) {
+		public FindDto(Post entity) {
 			this.id = entity.getId();
 			this.title = entity.getTitle();
 			this.content = entity.getContent();
