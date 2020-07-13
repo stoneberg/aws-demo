@@ -24,16 +24,17 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-mustache')
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
     compile('org.springframework.session:spring-session-jdbc')
-    compileOnly 'org.projectlombok:lombok'
     compile("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly 'org.postgresql:postgresql'
+    compile('org.postgresql:postgresql')
+    compile('p6spy:p6spy:3.9.0')
+    compile('com.integralblue:log4jdbc-spring-boot-starter:2.0.0')
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    compile group: 'p6spy', name: 'p6spy', version: '3.9.0'
-    compile group: 'com.integralblue', name: 'log4jdbc-spring-boot-starter', version: '2.0.0'
+    testCompile("org.springframework.security:spring-security-test")
 }
 
 test {
