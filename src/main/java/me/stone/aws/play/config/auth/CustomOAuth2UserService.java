@@ -27,14 +27,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("@userRequest==============>{}", userRequest);
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-        log.info("@oAuth2User===============>{}", oAuth2User);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+
+        log.info("@@registrationId===================>{}", registrationId);
+        log.info("@@userNameAttributeName============>{}",userNameAttributeName);
+        log.info("@@attributes=======================>{}", oAuth2User.getAttributes());
 
         OAuthAttributes attributes = OAuthAttributes.
                 of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
